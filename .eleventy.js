@@ -7,6 +7,8 @@ const tocPlugin = require("eleventy-plugin-nesting-toc");
 const { parse } = require("node-html-parser");
 const htmlMinifier = require("html-minifier-terser");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
+// Base URL for GitHub Pages project deployments
+const BASE_URL = (process.env.BASE_URL || "/").replace(/\/+$/, "/");
 
 const { headerToId, namedHeadingsFilter } = require("./src/helpers/utils");
 const {
@@ -562,6 +564,8 @@ module.exports = function (eleventyConfig) {
   userEleventySetup(eleventyConfig);
 
   return {
+    // This tells Eleventy to prefix URLs with /AentisODG/ when building on GitHub Pages
+    pathPrefix: BASE_URL,
     dir: {
       input: "src/site",
       output: "dist",

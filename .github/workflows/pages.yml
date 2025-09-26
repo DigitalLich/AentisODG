@@ -18,7 +18,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Important for GitHub Pages project sites
       BASE_URL: "/AentisODG/"
       NODE_ENV: production
     steps:
@@ -27,10 +26,11 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
+      # ⬇️ Add this line
+      - run: npm install --no-save cross-env
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
-          # Eleventy outputs to "dist" in your .eleventy.js
           path: dist
 
   deploy:

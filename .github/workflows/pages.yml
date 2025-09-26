@@ -2,7 +2,7 @@ name: Deploy Digital Garden to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [ DigitalLich-GitHubPages ]
   workflow_dispatch:
 
 permissions:
@@ -17,6 +17,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Important for GitHub Pages project sites
+      BASE_URL: "/AentisODG/"
+      NODE_ENV: production
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,10 +28,10 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npm run build
-      # Eleventy outputs to "_site" by default
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          # Eleventy outputs to "dist" in your .eleventy.js
+          path: dist
 
   deploy:
     needs: build
